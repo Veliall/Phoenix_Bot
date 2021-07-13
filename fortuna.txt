@@ -1,0 +1,4 @@
+https://api.telegram.org/bot1874395721:AAFcvcqfZAWytLv25e-x9Q4ggD6dBhpXQFA/getWebhookInfo?url=https://site.ru/api/telegram/bot.php
+
+
+https://api.telegram.org/bot1874395721:AAFcvcqfZAWytLv25e-x9Q4ggD6dBhpXQFA/setWebhook?url=http://d8bca091023e.ngrok.io
