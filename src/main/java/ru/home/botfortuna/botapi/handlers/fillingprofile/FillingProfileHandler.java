@@ -4,10 +4,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.home.botfortuna.botapi.BotState;
 import ru.home.botfortuna.botapi.InputMessageHandler;
 import ru.home.botfortuna.cache.UserDataCache;
 import ru.home.botfortuna.service.ReplyMessageService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.String.*;
 
 
 /**
@@ -50,55 +58,78 @@ public class FillingProfileHandler implements InputMessageHandler {
         SendMessage replyToUser = null;
 
         if (botState.equals(BotState.ASK_NAME)) {
-            replyToUser = messagesService.getReplyMessage(String.valueOf(chatId), "reply.askName");
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.askName");
             userDataCache.setUsersCurrentBotState(userId, BotState.ASK_AGE);
         }
 
         if (botState.equals(BotState.ASK_AGE)) {
             profileData.setName(usersAnswer);
-            replyToUser = messagesService.getReplyMessage(String.valueOf(chatId), "reply.askAge");
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.askAge");
             userDataCache.setUsersCurrentBotState(userId, BotState.ASK_GENDER);
         }
 
         if (botState.equals(BotState.ASK_GENDER)) {
-            replyToUser = messagesService.getReplyMessage(String.valueOf(chatId), "reply.askGender");
             profileData.setAge(Integer.parseInt(usersAnswer));
-            userDataCache.setUsersCurrentBotState(userId, BotState.ASK_NUMBER);
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.askGender");
+            replyToUser.setReplyMarkup(getGenderButtonsMarkup());
         }
 
         if (botState.equals(BotState.ASK_NUMBER)) {
-            replyToUser = messagesService.getReplyMessage(String.valueOf(chatId), "reply.askNumber");
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.askNumber");
             profileData.setGender(usersAnswer);
             userDataCache.setUsersCurrentBotState(userId, BotState.ASK_COLOR);
         }
 
         if (botState.equals(BotState.ASK_COLOR)) {
-            replyToUser = messagesService.getReplyMessage(String.valueOf(chatId), "reply.askColor");
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.askColor");
             profileData.setNumber(Integer.parseInt(usersAnswer));
             userDataCache.setUsersCurrentBotState(userId, BotState.ASK_MOVIE);
         }
 
         if (botState.equals(BotState.ASK_MOVIE)) {
-            replyToUser = messagesService.getReplyMessage(String.valueOf(chatId), "reply.askMovie");
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.askMovie");
             profileData.setColor(usersAnswer);
             userDataCache.setUsersCurrentBotState(userId, BotState.ASK_SONG);
         }
 
         if (botState.equals(BotState.ASK_SONG)) {
-            replyToUser = messagesService.getReplyMessage(String.valueOf(chatId), "reply.askSong");
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.askSong");
             profileData.setMovie(usersAnswer);
             userDataCache.setUsersCurrentBotState(userId, BotState.PROFILE_FILLED);
         }
 
         if (botState.equals(BotState.PROFILE_FILLED)) {
             profileData.setSong(usersAnswer);
-            userDataCache.setUsersCurrentBotState(userId, BotState.ASK_DESTINY);
-            replyToUser = new SendMessage(chatId.toString(), String.format("%s %s", "Данные по вашей анкете", profileData));
+            userDataCache.setUsersCurrentBotState(userId, BotState.SHOW_MAIN_MENU);
+            replyToUser = messagesService.getReplyMessage(valueOf(chatId), "reply.profileFilled");
         }
 
         userDataCache.saveUserProfileData(userId, profileData);
 
         return replyToUser;
+    }
+
+    private InlineKeyboardMarkup getGenderButtonsMarkup() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardButton buttonGenderMan = new InlineKeyboardButton();
+        buttonGenderMan.setText("М");
+        InlineKeyboardButton buttonGenderWoman = new InlineKeyboardButton();
+        buttonGenderWoman.setText("Ж");
+
+        //Every button must have callBackData, or else not work !
+        buttonGenderMan.setCallbackData("buttonMan");
+        buttonGenderWoman.setCallbackData("buttonWoman");
+
+        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
+        keyboardButtonsRow1.add(buttonGenderMan);
+        keyboardButtonsRow1.add(buttonGenderWoman);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        rowList.add(keyboardButtonsRow1);
+
+        inlineKeyboardMarkup.setKeyboard(rowList);
+
+        return inlineKeyboardMarkup;
     }
 
 

@@ -26,4 +26,8 @@ public class ReplyMessageService {
     public SendMessage getReplyMessage(String chatId, String replyMessage, Object... args){
         return new SendMessage(chatId, localeMessageService.getMessage(replyMessage, args));
     }
+
+    public String getReplyText(String s) {
+        return localeMessageService.getMessage(s);
+    }
 }
