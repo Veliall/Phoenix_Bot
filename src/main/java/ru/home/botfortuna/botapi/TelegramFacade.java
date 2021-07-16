@@ -2,16 +2,22 @@ package ru.home.botfortuna.botapi;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.home.botfortuna.botapi.handlers.fillingprofile.UserProfileData;
+import org.telegram.telegrambots.meta.api.objects.*;
+import ru.home.botfortuna.FortunaTelegramBot;
+import ru.home.botfortuna.model.UserProfileData;
 import ru.home.botfortuna.cache.UserDataCache;
 import ru.home.botfortuna.service.MainMenuService;
+import ru.home.botfortuna.service.ReplyMessageService;
+
+import java.io.*;
+import java.io.File;
 
 /**
  * @author Igor Khristiuk
@@ -22,6 +28,21 @@ public class TelegramFacade {
     private BotStateContext botStateContext;
     private UserDataCache userDataCache;
     private MainMenuService mainMenuService;
+    private FortunaTelegramBot fortunaTelegramBot;
+    private ReplyMessageService replyMessageService;
+
+    @Autowired
+    public TelegramFacade(BotStateContext botStateContext,
+                          UserDataCache userDataCache,
+                          MainMenuService mainMenuService,
+                          @Lazy FortunaTelegramBot fortunaTelegramBot,
+                          ReplyMessageService replyMessageService) {
+        this.botStateContext = botStateContext;
+        this.userDataCache = userDataCache;
+        this.mainMenuService = mainMenuService;
+        this.fortunaTelegramBot = fortunaTelegramBot;
+        this.replyMessageService = replyMessageService;
+    }
 
     public TelegramFacade(BotStateContext botStateContext, UserDataCache userDataCache, MainMenuService mainMenuService) {
         this.botStateContext = botStateContext;
@@ -95,6 +116,7 @@ public class TelegramFacade {
 
     private SendMessage handleInputMessage(Message message) {
         String inputMsg = message.getText();
+        String chatId = String.valueOf(message.getChatId());
         @NonNull Long userId = message.getFrom().getId();
         BotState botState;
         SendMessage replyMessage;
@@ -102,11 +124,17 @@ public class TelegramFacade {
         switch (inputMsg) {
             case "/start":
                 botState = BotState.ASK_DESTINY;
+                fortunaTelegramBot.sendPhoto(chatId,replyMessageService.getReplyText("reply.hello"),
+                        "static/images/507388.jpg");
                 break;
             case "Получить предсказание":
                 botState = BotState.FILLING_PROFILE;
                 break;
             case "Моя анкета":
+                botState = BotState.SHOW_USER_PROFILE;
+                break;
+            case "Скачать анкету":
+                fortunaTelegramBot.sendDocument(chatId, "Ваша анкета", getUserProfile(userId));
                 botState = BotState.SHOW_USER_PROFILE;
                 break;
             case "Помощь":
@@ -122,5 +150,25 @@ public class TelegramFacade {
         replyMessage = botStateContext.processInputMessage(botState, message);
 
         return replyMessage;
+    }
+
+    private File getUserProfile(Long userId) {
+        UserProfileData userProfileData = userDataCache.getUserProfileData(userId);
+        File profileFile = null;
+        try {
+            profileFile = ResourceUtils.getFile("classpath:static/docs/users_profile.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            assert profileFile != null;
+            try (FileWriter fw = new FileWriter(profileFile.getAbsoluteFile());
+                     BufferedWriter bw = new BufferedWriter(fw)) {
+                bw.write(userProfileData.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return profileFile;
     }
 }

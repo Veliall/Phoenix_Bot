@@ -2,10 +2,9 @@ package ru.home.botfortuna.cache;
 
 import org.springframework.stereotype.Component;
 import ru.home.botfortuna.botapi.BotState;
-import ru.home.botfortuna.botapi.handlers.fillingprofile.UserProfileData;
+import ru.home.botfortuna.model.UserProfileData;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 /**

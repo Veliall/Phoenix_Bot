@@ -7,6 +7,7 @@ import ru.home.botfortuna.botapi.BotState;
 import ru.home.botfortuna.botapi.InputMessageHandler;
 import ru.home.botfortuna.service.MainMenuService;
 import ru.home.botfortuna.service.ReplyMessageService;
+import ru.home.botfortuna.utils.Emojis;
 
 /**
  * @author Igor Khristiuk
@@ -26,7 +27,7 @@ public class HelpMenuHandler implements InputMessageHandler {
     @Override
     public SendMessage handle(Message message) {
         return menuService.getMainMenuMessage(message.getChatId(),
-                messageService.getReplyText("reply.shoeHelpMenu"));
+                messageService.getReplyText("reply.shoeHelpMenu", Emojis.MAGE));
     }
 
     @Override

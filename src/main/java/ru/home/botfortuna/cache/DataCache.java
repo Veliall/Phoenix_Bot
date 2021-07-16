@@ -1,7 +1,7 @@
 package ru.home.botfortuna.cache;
 
 import ru.home.botfortuna.botapi.BotState;
-import ru.home.botfortuna.botapi.handlers.fillingprofile.UserProfileData;
+import ru.home.botfortuna.model.UserProfileData;
 
 /**
  * @author Igor Khristiuk

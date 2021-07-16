@@ -24,17 +24,9 @@ public class BotConfig {
     private String botUserName;
     private String botToken;
 
-    private DefaultBotOptions.ProxyType proxyType;
-    private String proxyHost;
-    private int proxyPort;
-
     @Bean
     public FortunaTelegramBot mySuperTelegramBot(TelegramFacade telegramFacade) {
         DefaultBotOptions options = new DefaultBotOptions();
-
-        options.setProxyHost(proxyHost);
-        options.setProxyPort(proxyPort);
-        options.setProxyType(proxyType);
 
         FortunaTelegramBot mySuperTelegramBot = new FortunaTelegramBot(options,telegramFacade);
         mySuperTelegramBot.setBotUserName(botUserName);

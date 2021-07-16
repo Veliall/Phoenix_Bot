@@ -27,6 +27,10 @@ public class ReplyMessageService {
         return new SendMessage(chatId, localeMessageService.getMessage(replyMessage, args));
     }
 
+    public String getReplyText(String s, Object...args) {
+        return localeMessageService.getMessage(s);
+    }
+
     public String getReplyText(String s) {
         return localeMessageService.getMessage(s);
     }
