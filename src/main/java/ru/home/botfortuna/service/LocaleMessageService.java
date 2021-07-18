@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 
 /**
+ * Установка локали.
+ *
  * @author Igor Khristiuk
  */
 @Service

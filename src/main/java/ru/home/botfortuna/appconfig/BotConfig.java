@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import ru.home.botfortuna.FortunaTelegramBot;
+import ru.home.botfortuna.PhoenixTelegramBot;
 import ru.home.botfortuna.botapi.TelegramFacade;
 
 /**
@@ -25,10 +25,10 @@ public class BotConfig {
     private String botToken;
 
     @Bean
-    public FortunaTelegramBot mySuperTelegramBot(TelegramFacade telegramFacade) {
+    public PhoenixTelegramBot mySuperTelegramBot(TelegramFacade telegramFacade) {
         DefaultBotOptions options = new DefaultBotOptions();
 
-        FortunaTelegramBot mySuperTelegramBot = new FortunaTelegramBot(options,telegramFacade);
+        PhoenixTelegramBot mySuperTelegramBot = new PhoenixTelegramBot(options,telegramFacade);
         mySuperTelegramBot.setBotUserName(botUserName);
         mySuperTelegramBot.setBotToken(botToken);
         mySuperTelegramBot.setWebHookPath(webHookPath);

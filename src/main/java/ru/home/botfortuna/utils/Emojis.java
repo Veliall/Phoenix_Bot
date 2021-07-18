@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 public enum Emojis {
     SPARKLES(EmojiParser.parseToUnicode(":sparkles:")),
     SCROLL(EmojiParser.parseToUnicode(":scroll:")),
+    SHRUGGING(EmojiParser.parseToUnicode(":man_shrugging:")),
     MAGE(EmojiParser.parseToUnicode(":mage:"));
 
     private String emojiName;

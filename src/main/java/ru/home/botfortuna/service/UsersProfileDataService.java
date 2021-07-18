@@ -1,7 +1,6 @@
 package ru.home.botfortuna.service;
 
 import org.jvnet.hk2.annotations.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.home.botfortuna.model.UserProfileData;
 import ru.home.botfortuna.repository.UserProfileMongoRepository;
@@ -9,11 +8,13 @@ import ru.home.botfortuna.repository.UserProfileMongoRepository;
 import java.util.List;
 
 /**
+ * Сервис операций с базой данных
+ *
  * @author Igor Khristiuk
  */
 @Service
 @Component
-public class UsersProfileDataService{
+public class UsersProfileDataService {
     private UserProfileMongoRepository profileMongoRepository;
 
     public UsersProfileDataService(UserProfileMongoRepository profileMongoRepository) {

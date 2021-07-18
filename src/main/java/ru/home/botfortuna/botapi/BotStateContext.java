@@ -1,6 +1,5 @@
 package ru.home.botfortuna.botapi;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -12,6 +11,7 @@ import java.util.Map;
 
 /**
  * Обработчик сообщений для каждого состояния
+ *
  * @author Igor Khristiuk
  */
 @Component
@@ -38,12 +38,14 @@ public class BotStateContext {
     private boolean isFillingProfileState(BotState currentState) {
         switch (currentState) {
             case ASK_NAME:
-            case ASK_AGE:
-            case ASK_GENDER:
-            case ASK_NUMBER:
-            case ASK_MOVIE:
-            case ASK_SONG:
-            case ASK_COLOR:
+            case ASK_BIRTHDAY:
+            case ASK_SCHOOL:
+            case ASK_ADDRESS:
+            case ASK_PHONE:
+            case ASK_PARENT_NAME:
+            case ASK_PARENT_BIRTHDAY:
+            case ASK_JOB:
+            case ASK_PARENT_PHONE:
             case FILLING_PROFILE:
             case PROFILE_FILLED:
                 return true;

@@ -21,8 +21,7 @@ public class MainMenuService {
 
     public SendMessage getMainMenuMessage(final Long chatId, final String text) {
         final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
-        final SendMessage message = createMessage(chatId,text, replyKeyboardMarkup);
-        return message;
+        return createMessage(chatId,text, replyKeyboardMarkup);
     }
 
     private SendMessage createMessage(Long chatId, String text, ReplyKeyboardMarkup replyKeyboardMarkup) {
@@ -46,10 +45,10 @@ public class MainMenuService {
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
         KeyboardRow row3 = new KeyboardRow();
-        row1.add(new KeyboardButton("Получить предсказание"));
-        row2.add(new KeyboardButton("Моя анкета"));
-        row2.add(new KeyboardButton("Скачать анкету"));
-        row3.add(new KeyboardButton("Помощь"));
+        row1.add(new KeyboardButton("Анкета"));
+        row2.add(new KeyboardButton("Расписание"));
+        row3.add(new KeyboardButton("Контакты"));
+        row3.add(new KeyboardButton("Список документов"));
         keyboard.add(row1);
         keyboard.add(row2);
         keyboard.add(row3);

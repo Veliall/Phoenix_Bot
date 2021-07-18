@@ -17,47 +17,31 @@ import java.io.FileNotFoundException;
 /**
  * @author Igor Khristiuk
  */
-public class FortunaTelegramBot extends TelegramWebhookBot {
+public class PhoenixTelegramBot extends TelegramWebhookBot {
     private String webHookPath;
     private String botUserName;
     private String botToken;
 
     private TelegramFacade telegramFacade;
 
-    public FortunaTelegramBot(DefaultBotOptions options, TelegramFacade telegramFacade) {
+    public PhoenixTelegramBot(DefaultBotOptions options, TelegramFacade telegramFacade) {
         super(options);
         this.telegramFacade = telegramFacade;
     }
 
     @Override
-    public String getBotPath() {
-        return webHookPath;
-    }
-
-    @Override
-    public String getBotToken() {
-        return botToken;
-    }
-
-    @Override
-    public String getBotUsername() {
-        return botUserName;
-    }
-
-    @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        final BotApiMethod<?> replyMessage = telegramFacade.handleUpdate(update);
-        return replyMessage;
+        return telegramFacade.handleUpdate(update);
     }
 
     public void sendPhoto(String chatId, String imageCaption, String imagePath) {
-        File image1 = null;
+        File file = null;
         try {
-            image1 = ResourceUtils.getFile("classpath:" + imagePath);
+            file = ResourceUtils.getFile("classpath:" + imagePath);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        InputFile image = new InputFile(image1);
+        InputFile image = new InputFile(file);
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setPhoto(image);
         sendPhoto.setChatId(chatId);
@@ -93,4 +77,20 @@ public class FortunaTelegramBot extends TelegramWebhookBot {
     public void setBotToken(String botToken) {
         this.botToken = botToken;
     }
+
+    @Override
+    public String getBotPath() {
+        return webHookPath;
+    }
+
+    @Override
+    public String getBotToken() {
+        return botToken;
+    }
+
+    @Override
+    public String getBotUsername() {
+        return botUserName;
+    }
+
 }

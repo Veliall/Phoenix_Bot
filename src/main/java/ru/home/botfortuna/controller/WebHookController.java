@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.home.botfortuna.FortunaTelegramBot;
+import ru.home.botfortuna.PhoenixTelegramBot;
 
 /**
  * @author Igor Khristiuk
@@ -14,9 +14,9 @@ import ru.home.botfortuna.FortunaTelegramBot;
 
 @RestController
 public class WebHookController {
-    private final FortunaTelegramBot telegramBot;
+    private final PhoenixTelegramBot telegramBot;
 
-    public WebHookController(FortunaTelegramBot telegramBot) {
+    public WebHookController(PhoenixTelegramBot telegramBot) {
         this.telegramBot = telegramBot;
     }
 

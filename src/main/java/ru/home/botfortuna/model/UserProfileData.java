@@ -1,4 +1,5 @@
 package ru.home.botfortuna.model;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -8,28 +9,35 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 
 /**
- * Данные анкеты пользователя
+ * Данные анкеты участника
+ *
+ * @author Igor Khristiuk
  */
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Document(collation = "Students")
+@Document(collection = "Students")
 public class UserProfileData implements Serializable {
     @Id
     String id;
-    String name;
-    String gender;
-    String color;
-    String movie;
-    String song;
-    int age;
-    int number;
+    String fullName;
+    String birthday;
+    String school;
+    String address;
+    String phone;
+
+    String parentFullName;
+    String parentBirthday;
+    String job;
+    String parentPhone;
     String chatId;
 
     @Override
     public String toString() {
-        return String.format("Имя: %s%nВозраст: %d%nПол: %s%nЛюбимая цифра: %d%n" +
-                        "Цвет: %s%nФильм: %s%nПесня: %s%n", getName(), getAge(), getGender(), getNumber(),
-                getColor(), getMovie(), getSong());
+        return String.format("ФИО ребёнка: %s%nДата рождения: %s%nШкола и класс: %s%nАдресс: %s%n" +
+                        "Телефон: %s%nФИО родителя: %s%nДата рождения родителя: %s%n" +
+                        "Место работы и должность: %s%nТелефон: %s",
+                getFullName(), getBirthday(), getSchool(), getAddress(),
+                getPhone(), getParentFullName(),getParentBirthday(), getJob(), getParentPhone());
     }
 }

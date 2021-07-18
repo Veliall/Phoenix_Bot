@@ -12,8 +12,8 @@ import java.util.Map;
  */
 @Component
 public class UserDataCache implements DataCache {
-    private Map<Long, BotState> usersBotStates = new HashMap<>();
-    private Map<Long, UserProfileData> usersProfileData = new HashMap<>();
+    private final Map<Long, BotState> usersBotStates = new HashMap<>();
+    private final Map<Long, UserProfileData> usersProfileData = new HashMap<>();
 
     @Override
     public void setUsersCurrentBotState(Long userId, BotState botState) {
@@ -24,7 +24,7 @@ public class UserDataCache implements DataCache {
     public BotState getUsersCurrentBotState(Long userId) {
         BotState botState = usersBotStates.get(userId);
         if (botState == null) {
-            botState = BotState.ASK_DESTINY;
+            botState = BotState.SHOW_MAIN_MENU;
         }
 
         return botState;

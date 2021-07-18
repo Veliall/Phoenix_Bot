@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 /**
  * Обрабтчик сообщений
+ *
  * @author Igor Khristiuk
  */
 public interface InputMessageHandler {
