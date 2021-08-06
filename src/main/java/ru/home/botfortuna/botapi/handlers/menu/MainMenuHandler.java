@@ -15,8 +15,8 @@ import ru.home.botfortuna.service.ReplyMessageService;
 @Component
 public class MainMenuHandler implements InputMessageHandler {
 
-    private ReplyMessageService messageService;
-    private MainMenuService mainMenuService;
+    private final ReplyMessageService messageService;
+    private final MainMenuService mainMenuService;
 
     public MainMenuHandler(ReplyMessageService messageService, MainMenuService mainMenuService) {
         this.messageService = messageService;

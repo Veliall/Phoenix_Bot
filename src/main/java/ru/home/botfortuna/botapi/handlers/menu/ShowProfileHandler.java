@@ -8,8 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.home.botfortuna.botapi.BotState;
 import ru.home.botfortuna.botapi.InputMessageHandler;
-import ru.home.botfortuna.model.UserProfileData;
 import ru.home.botfortuna.cache.UserDataCache;
+import ru.home.botfortuna.model.UserProfileData;
 import ru.home.botfortuna.service.UsersProfileDataService;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 @Component
 public class ShowProfileHandler implements InputMessageHandler {
 
-    private UserDataCache userDataCache;
+    private final UserDataCache userDataCache;
     private UsersProfileDataService profileDataService;
 
     @Autowired
@@ -37,7 +37,8 @@ public class ShowProfileHandler implements InputMessageHandler {
     @Override
     public SendMessage handle(Message message) {
         final Long userId = message.getFrom().getId();
-        final UserProfileData profileData = profileDataService.getUserProfileData(String.valueOf(message.getChatId()));
+        final List<UserProfileData> profileData =
+                profileDataService.getUserProfileData(String.valueOf(message.getChatId()));
 
         userDataCache.setUsersCurrentBotState(userId, BotState.SHOW_MAIN_MENU);
         SendMessage userReply;

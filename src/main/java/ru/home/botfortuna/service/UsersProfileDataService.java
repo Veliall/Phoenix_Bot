@@ -33,7 +33,7 @@ public class UsersProfileDataService {
         profileMongoRepository.deleteById(profileDataId);
     }
 
-    public UserProfileData getUserProfileData(String chatId) {
+    public List<UserProfileData> getUserProfileData(String chatId) {
         return profileMongoRepository.findByChatId(chatId);
     }
 }
